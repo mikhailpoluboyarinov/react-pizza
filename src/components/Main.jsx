@@ -1,11 +1,19 @@
-import logo from '../assets/img/pizza-logo.svg'
+import React, {useState, useEffect} from "react";
 import Header from './Header'
 import Categories from './Categories'
 import Sort from './Sort'
 import PizzaBlock from "./PizzaBlock";
-import pizzas from '../assets/pizzas.json'
 
 function Main() {
+  const [items,setItems] = useState([]);
+
+  useEffect(() => {
+    fetch('https://63dbe3dac45e08a043508e92.mockapi.io/items')
+        .then((res) => res.json())
+        .then((arr) => {
+      setItems(arr);
+    })
+  }, []);
 
 return (
 <div className="wrapper">
@@ -19,7 +27,7 @@ return (
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {
-          pizzas.map((obj) => (
+          items.map((obj) => (
               <PizzaBlock
                   key={obj.id}
                   {...obj}
