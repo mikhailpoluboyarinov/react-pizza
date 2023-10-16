@@ -18,7 +18,7 @@ function Categories() {
         <ul>
             {
                 pizzaCategories.map((value, i) => (
-                    <li onClick={() => onClickCategory(i)} className={activeCategories === i ? 'active' : ''}>
+                    <li key={i} onClick={() => onClickCategory(i)} className={activeCategories === i ? 'active' : ''}>
                         {value}
                     </li>
                 ))
