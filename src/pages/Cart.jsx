@@ -3,9 +3,7 @@ import CartBlock from "../components/CartBlock/index";
 
 const Cart = () => {
     return (
-        <>
-            <CartBlock />
-        </>
+        <CartBlock />
     )
 }
 
