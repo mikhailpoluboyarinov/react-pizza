@@ -1,16 +1,15 @@
 import {useState} from "react";
 
-function Sort() {
+function Sort({ sortType ,onClickSort }) {
     const [isVisible, setIsVisible] = useState(false);
     const categories = [
-        'популярности',
-        'цене',
-        'алфавиту'
+        { name: 'популярности', sortProperty: 'rating'},
+        { name: 'цене', sortProperty: 'price'},
+        { name: 'алфавиту', sortProperty: 'title'}
     ];
-    const [activeCategory, setActiveCategory] = useState(0);
 
     const onClickCategory = (i) => {
-        setActiveCategory(i);
+        onClickSort(i);
         setIsVisible(false);
     }
 
@@ -22,16 +21,16 @@ function Sort() {
                     fill="#2C2C2C" />
             </svg>
             <b>Сортировка по:</b>
-            <span onClick={() => setIsVisible(!isVisible)}>{categories[activeCategory]}</span>
+            <span onClick={() => setIsVisible(!isVisible)}>{sortType.name}</span>
         </div>
         {isVisible && <div className="sort__popup">
             <ul>
-                {categories.map((value, i) => (
+                {categories.map((obj, i) => (
                     <li
                         key={i}
-                        onClick={() => onClickCategory(i)}
-                        className={activeCategory===i ? 'active' : ''}
-                    >{value}</li>
+                        onClick={() => onClickCategory(obj)}
+                        className={sortType.sortProperty === obj.sortProperty ? 'active' : ''}
+                    >{obj.name}</li>
                     ))}
             </ul>
         </div>}
