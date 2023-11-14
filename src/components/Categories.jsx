@@ -1,5 +1,3 @@
-import { useState} from "react";
-
 function Categories({ categoryId, onClickCategory }) {
     const pizzaCategories = [
         'Все',
