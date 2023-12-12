@@ -1,5 +1,7 @@
 import React, {useState, useEffect, useContext} from "react";
 import axios from "axios";
+import qs from "qs";
+import { useNavigate } from "react-router-dom";
 import Categories from '../components/Categories'
 import Sort from '../components/Sort'
 import PizzaBlock from "../components/PizzaBlock";
@@ -7,9 +9,11 @@ import Skeleton from "../components/Skeleton";
 import Pagination from "../components/Pagination";
 import {SearchContext} from "../components/Main";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage, setFilters } from "../redux/slices/filterSlice";
+/*import {categories} from "../components/Sort";*/
 
 function Home() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { categoryId, currentPage } = useSelector(state => state.filter);
     const sortType = useSelector(state => state.filter.sort.sortProperty);
@@ -27,6 +31,24 @@ function Home() {
         dispatch(setCurrentPage(number));
     }
 
+    // Код для работы с параметрами из ссылки 15 урок //
+    /*useEffect(() => {
+        if (window.location.search) {
+            const params = qs.parse(window.location.search.substring(1));
+            const sort = categories.find(obj => obj.sortProperty === params.sortType);
+            /!*console.log('categories', categories)*!/
+
+
+            dispatch(
+                setFilters({
+                    ...params,
+                    sort,
+                })
+            )
+            /!*console.log('params.sortProperty', params)*!/
+        }
+    }, [])*/
+
     const skeletons = [...new Array(6)].map((_, index) => (<Skeleton key={index}/>));
     const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj}/>);
 
@@ -43,6 +65,16 @@ function Home() {
                 setIsLoading(false);
             })
         window.scrollTo(0, 0);
+    }, [categoryId, sortType, searchValue, currentPage]);
+
+    useEffect(() => {
+        const queryString = qs.stringify({
+            sortType,
+            categoryId,
+            currentPage
+        })
+
+        navigate(`?${queryString}`);
     }, [categoryId, sortType, searchValue, currentPage]);
 
     return (

@@ -7,7 +7,6 @@ const Search = () => {
     const [value, setValue] = useState();
     const { setSearchValue } = useContext(SearchContext);
     const inputRef = useRef();
-    console.log('inputRef', inputRef)
 
     const onClickClear = () => {
         setSearchValue('');
